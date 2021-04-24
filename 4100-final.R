@@ -2,17 +2,22 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-data <- read.csv("C:/Users/yatri/Downloads/owid-covid-data.csv")
+data <- read.csv("./Desktop/R_Project/owid-covid-data.csv")
 
-
-data_new <- NULL
-
-createTimeSeriesChart <- function(a, c){
+createTimeSeriesChart <- function(isocode, frequency, column){
+  
   data_new <- data %>%
-    filter(iso_code == a)
-  data_new <- data_new %>% select(c, "date")
-  drop_na(data_new)
-  ggplot(data_new, aes(x = date) + geom_line(aes(y=c)))
+    dplyr::filter(iso_code == isocode)
+  data_new <- data_new %>% select(column, "date")
+  
+  data_new <- drop_na(data_new)
+  
+  MultipleTimeSeries <- ts(data_new, frequency=frequency, start = c(2020,2), end = c(2021,4) )
+  
+  View(MultipleTimeSeries)
+  
+  plot.ts(MultipleTimeSeries,xlab="Time")
 }
 
-createTimeSeriesChart("USA", "total_cases")
+createTimeSeriesChart("AFG", 12, "total_cases")
+
