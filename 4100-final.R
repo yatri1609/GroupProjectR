@@ -8,7 +8,7 @@ createTimeSeriesChart <- function(isocode, frequency, column){
   
   data_new <- data %>%
     dplyr::filter(iso_code == isocode)
-  data_new <- data_new %>% select(column, "date")
+  data_new <- data_new %>% select(column)
   
   data_new <- drop_na(data_new)
   
@@ -16,8 +16,8 @@ createTimeSeriesChart <- function(isocode, frequency, column){
   
   View(MultipleTimeSeries)
   
-  plot.ts(MultipleTimeSeries,xlab="Time")
+  plot.ts(MultipleTimeSeries,xlab="Time", main="Plot of time series")
 }
 
-createTimeSeriesChart("AFG", 12, "total_cases")
+createTimeSeriesChart("AFG", 12, c("total_cases", "new_cases"))
 
